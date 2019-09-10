@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+   <meta charset="UTF-8">
+   <title>Forms Task 1</title>
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+
+</head>
+<body>
+   <form id="MyValidateForm" style="margin: 15px auto;">
+      <input type="text" name='login' placeholder="Ваш логин" />
+      <input type="password" name='pas1' placeholder="Ваш пароль" />
+      <input type="password" name='pas2' placeholder="Повторите пароль" />
+      <label for="agree">
+         <span>Вы согласны с лицензионым соглашением.</span>
+         <input type="checkbox" id="agree" />
+      </label>
+      <input type="submit" id="submit" value="Отправить" disabled/>
+   </form>
+
+   <style>
+      #MyValidateForm{
+         width: 350px;
+         display: flex;
+         flex-direction: column;
+      }
+
+      #MyValidateForm input{
+         margin-bottom: 10px;
+         box-sizing: border-box;
+         padding: 10px 20px;
+      }
+      .error{
+         border: 1px solid red;
+      }
+      .OK{
+         border: 1px solid green;
+      }
+   </style>
+      <script>
+      /*
+         Задание:
+         Сделать валидацию формы:
+         1. Логин / Пароль не может быть пустым
+         2. Пароли должны совпадть
+         3. Пока не стоит что юзер согласен с лиц. соглашением - кнопка отправки не активна
+
+         + бонус - то поле, которое не прошло валидацию подсвечивать красным.
+                  - которое прошло - подсвечивать зеленым.
+      */
+      document.addEventListener("DOMContentLoaded", function(event) {     
+         document.getElementById('agree').addEventListener('click', function(e){
+            if(e.target.checked){
+               document.getElementById('submit').removeAttribute('disabled');
+            } else {
+               document.getElementById('submit').setAttribute('disabled', 'disabled');
+            }
+         });
+         
+         document.getElementById('submit').addEventListener('click', validate);
+         // вибрл
+        
+         var myForm = document.getElementById('MyValidateForm');
+         var login =  myForm.elements.login;
+         var password1 =  myForm.elements.pas1;
+         var password2 =  myForm.elements.pas2;
+         // проверяю
+         function validate(e){
+            e.preventDefault();
+            if( login.value != '' && password1.value != '' && password1.value === password2.value){
+               console.log('form valide!');
+            } else {
+               console.error('form not valide');
+               if(login.value == ''){
+                  login.classList.add('error');
+               }
+               if(password1.value != password2.value){
+                  password2.classList.add('error');
+               }
+            }
+         }; 
+      }); 
+   </script>
+ 
+<!-- validationMessage 
+
+
+Локализованное сообщение, описывающее ограничения валидности, которым элемент управления не соответствует (если есть), или пустая строка, если элемент управления не является кандидатом для проверки ограничений (willValidate is false), или значение элемента удовлетворяет его ограничениям.
+
+validity объект ValidityState , описывающий состояние действительности элемента.
+validity.customError Возвращает true если элемент содержит пользовательскую ошибку; false в противном случае.
+validity.patternMismatch   Возвращает true если значение элемента не соответствует предоставленному шаблону; false в противном случае.
+
+если возвращает true, элемент будет соответствовать CSS псевдо-классу :invalid.
+validity.rangeOverflow  Возвращает true если значение элемента выше заданного максимума; false в противном случае.
+
+Если возвращает true, элемент будет соответствовать :invalid и CSS псевдо-классу. :out-of-range.
+validity.rangeUnderflow Возвращаетtrue если значение элемента меньше заданного минимума; false в противном случае.
+
+Если возвращает true, элемент будет соответствовать :invalid и CSS псевдо-классу :out-of-range.
+validity.stepMismatch   Возвращаетtrue, если значение элемента не соответствует правилам, предоставляемым атрибутом step; в противном случае false .
+
+Если возвращает true, элемент будет соответствовать :invalid и CSS псевдоклассу :out-of-range.
+validity.tooLong  Возвращает true если значение элемента больше заданной максимальной длины; иначе будет false
+
+Если возвращает true, элемент будет соответствовать :invalid и CSS псевдоклассу :out-of-range.
+validity.typeMismatch   Возвращает true если значение элемента не соответствует правильному синтаксису; в противном случае - false.
+Если возвращает true, элемент будет соответствовать CSS псевдоклассу :invalid.
+validity.valid Возвращае true если значение элемента не имеет проблем с валидностью; в противном случае false.
+
+Если возвращает true, элемент будет соответствовать CSS псевдоклассу :valid ; CSS псевдоклассу :invalid в противном случае.
+validity.valueMissing   Возвращает true если элемент не имеет значения, но является обязательным полем; в противном случае false.
+
+Если возвращает true, элемент будет соответствовать CSS псевдоклассу :invalid.
+ --></body>
+</html>
